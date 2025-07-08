@@ -1,0 +1,87 @@
+% PAQUETES
+\usepackage[utf8]{inputenc} 		% Para escribir caracteres latinos
+\usepackage[spanish,mexico,es-nodecimaldot]{babel} 	% Compatibilidad con el idioma español
+\usepackage[T1]{fontenc} 			% Usar fuentes bonitas
+\usepackage[sfdefault]{atkinson}	% Fuente elegida (anti dislexia)
+
+\usepackage{geometry}				% Dimensiones del documento
+\geometry{
+	left=25mm,
+	right=25mm,
+	top=20mm,
+	bottom=20mm,
+	includeheadfoot,
+	headsep=10mm,
+	footskip=15mm
+}
+
+\renewcommand{\baselinestretch}{1.12} 	% Interlineado
+\setlength{\parskip}{8pt}				% Espacio entre párrafos
+\setlength{\parindent}{0pt}				% Sangria de primer párrafo
+
+\usepackage[all]{nowidow} % Evita las líneas huérfanas
+
+
+
+% --- Personalizar el título de sección ---
+
+\usepackage{titlesec}
+\titleformat*{\section}{\fontfamily{artemisia} \centering \Large\bfseries\itshape}
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+
+% --- Comandos de Teatro ---
+
+\usepackage{dramatist}
+
+\renewcommand{\Dparsep}{5pt} 	% Espacio entre párrafos dentro del dialogo (Cuenta para fuera de él también)
+\renewcommand{\speechskip}{6pt}	% Espacio entre diálogos
+\renewcommand{\Dlabelsep}{5pt} % Separación de personaje del dialogo
+
+\renewcommand{\casttitlename}{Personajes} 	% Establecer el título para Dramatis Personæ
+\renewcommand{\scenename}{Cuadro}			% Establecer el título para las escenas
+\renewcommand{\thescene}{\arabic{scene}}	% Imprimir las escenas en números arábigos
+\renewcommand{\printscenenum}{\scenenumfont \#\thescene \intersep} 	% Layout para los títulos de escena
+
+\renewcommand{\scenenamefont}{\fontfamily{ptm}\selectfont \large \bfseries\scshape} 	% Fuente para los títulos de escena
+\renewcommand{\speaksfont}{\fontfamily{artemisia}\selectfont \itshape}	% Fuente para el personaje en los diálogos
+
+\usepackage{calc}
+
+\setlength{\speakswidth}{\widthof{\speaksfont Comp}}
+\addtolength{\speakswidth}{\Dlabelsep}
+\addtolength{\speaksindent}{\speakswidth}
+
+
+
+% --- Tablas ---
+
+\usepackage{array}
+
+
+
+% --- Encabezado y pie de página ---
+
+\usepackage{fancyhdr, lastpage}
+\pagestyle{fancy}
+
+\lhead{\MakeUppercase{\encabezado}}
+\chead{}
+\rhead{Pág. \thepage\ de \pageref{LastPage}}
+
+\lfoot{Técnico: Denis Castillón}
+\cfoot{}
+\rfoot{Rev. \fecha}
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+
+
+
+% --- Título ---
+
+\title{ 
+	{\fontfamily{artemisia}\Huge\bfseries\itshape \encabezado} \\ 
+	\normalfont \normalsize 
+}
+\author{\dramaturgo} 
+\date{Rev. \fecha}

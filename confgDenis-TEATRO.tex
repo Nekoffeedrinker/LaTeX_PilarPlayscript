@@ -1,87 +1,117 @@
-% PAQUETES
-\usepackage[utf8]{inputenc} 		% Para escribir caracteres latinos
-\usepackage[spanish,mexico,es-nodecimaldot]{babel} 	% Compatibilidad con el idioma español
-\usepackage[T1]{fontenc} 			% Usar fuentes bonitas
-\usepackage[sfdefault]{atkinson}	% Fuente elegida (anti dislexia)
+%---------------------------------------------------------------------------
+%    Configuración y Paquetes
+%---------------------------------------------------------------------------
+\usepackage[utf8]{inputenc} % Escribir caracteres latinos
+\usepackage[spanish,mexico,es-nodecimaldot]{babel} % Idioma español mexicano
 
-\usepackage{geometry}				% Dimensiones del documento
+%------------------------------------------------
+%   Márgenes
+
+\usepackage[letterpaper]{geometry}	% Dimensiones del documento
 \geometry{
-	left=25mm,
-	right=25mm,
-	top=20mm,
-	bottom=20mm,
-	includeheadfoot,
-	headsep=10mm,
-	footskip=15mm
+	left = 45mm,
+	right = 45mm,
+	top = 45mm,
+	bottom = 45mm,
 }
 
-\renewcommand{\baselinestretch}{1.12} 	% Interlineado
-\setlength{\parskip}{8pt}				% Espacio entre párrafos
-\setlength{\parindent}{0pt}				% Sangria de primer párrafo
+%------------------------------------------------
+%   Tipografía
 
-\usepackage[all]{nowidow} % Evita las líneas huérfanas
+\usepackage[T1]{fontenc} 	% Usar fuentes bonitas
+\usepackage{notomath}		% Fuente para Serif y Mono
 
+\usepackage{atkinson}		% Fuente Sans Serif (anti dislexia)
+\renewcommand*\familydefault{\sfdefault} % Activar Sans Serif
 
+\usepackage{sectsty}			% Paquete para usar el comando allsectionsfont
+\allsectionsfont{\rmfamily} 	% Establecer los titulares con la fuente Serif
 
-% --- Personalizar el título de sección ---
+%------------------------------------------------
+%   Párrafos
 
-\usepackage{titlesec}
-\titleformat*{\section}{\fontfamily{artemisia} \centering \Large\bfseries\itshape}
-\titlespacing*{\section}{0pt}{0pt}{0pt}
+\renewcommand{\baselinestretch}{1.2} 	% Interlineado
+\setlength{\parskip}{8pt} 		% Espacio entre párrafos
+\setlength{\parindent}{0pt} 	% Sangria de primer párrafo
 
-% --- Comandos de Teatro ---
+\usepackage[defaultlines=3,all]{nowidow} % Evita las líneas huérfanas
 
-\usepackage{dramatist}
+\setcounter{secnumdepth}{0} % Hacer que las secciones no se numeren
 
-\renewcommand{\Dparsep}{5pt} 	% Espacio entre párrafos dentro del dialogo (Cuenta para fuera de él también)
-\renewcommand{\speechskip}{6pt}	% Espacio entre diálogos
-\renewcommand{\Dlabelsep}{5pt} % Separación de personaje del dialogo
+%------------------------------------------------
+%   Tabla de contenidos (TdC)
 
-\renewcommand{\casttitlename}{Personajes} 	% Establecer el título para Dramatis Personæ
-\renewcommand{\scenename}{Cuadro}			% Establecer el título para las escenas
-\renewcommand{\thescene}{\arabic{scene}}	% Imprimir las escenas en números arábigos
-\renewcommand{\printscenenum}{\scenenumfont \#\thescene \intersep} 	% Layout para los títulos de escena
-
-\renewcommand{\scenenamefont}{\fontfamily{ptm}\selectfont \large \bfseries\scshape} 	% Fuente para los títulos de escena
-\renewcommand{\speaksfont}{\fontfamily{artemisia}\selectfont \itshape}	% Fuente para el personaje en los diálogos
-
-\usepackage{calc}
-
-\setlength{\speakswidth}{\widthof{\speaksfont Comp}}
-\addtolength{\speakswidth}{\Dlabelsep}
-\addtolength{\speaksindent}{\speakswidth}
-
-
-
-% --- Tablas ---
-
-\usepackage{array}
-
-
-
-% --- Encabezado y pie de página ---
-
-\usepackage{fancyhdr, lastpage}
-\pagestyle{fancy}
-
-\lhead{\MakeUppercase{\encabezado}}
-\chead{}
-\rhead{Pág. \thepage\ de \pageref{LastPage}}
-
-\lfoot{Técnico: Denis Castillón}
-\cfoot{}
-\rfoot{Rev. \fecha}
-
-\renewcommand{\headrulewidth}{1pt}
-\renewcommand{\footrulewidth}{1pt}
-
-
-
-% --- Título ---
-
-\title{ 
-	{\fontfamily{artemisia}\Huge\bfseries\itshape \encabezado} \\ 
-	\normalfont \normalsize 
+\addto\captionsspanish{ % Modificar subtítulos en la TdC, cambiados por Babel
+	\renewcommand{\contentsname}{\begin{center}\rmfamily Cuadros\end{center}}
 }
-\author{\dramaturgo} 
-\date{Rev. \fecha}
+
+\usepackage{tocloft} % Para personalizar la tabla de contenidos
+
+\renewcommand\cftsecfont{\rmfamily \bfseries \small} % Tamaño de las secciones
+\renewcommand\cftsecpagefont{\rmfamily \small} % Tamaño del número de las secciones
+\renewcommand\cftsecafterpnum{\vspace{-0.5ex}} % Separación de las secciones
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Añadir puntos
+
+%------------------------------------------------
+%   Utilidades
+
+\usepackage[hidelinks]{hyperref} % Permite los hipervínculos
+\usepackage{ifthen}	% Poder evaluar condicionales
+
+%---------------------------------------------------------------------------
+%    Macros y definiciones
+%---------------------------------------------------------------------------
+
+%   Evitar saltos de página | NO SE USÓ. REMPLAZADO POR MINIPAGE
+
+% \newenvironment{absolutelynopagebreak}
+% {\par\nobreak\vfil\penalty0\vfilneg\vtop\bgroup}
+% {\par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd}
+
+%------------------------------------------------
+%   Acotaciones
+
+\newenvironment{acotado}{
+	\begin{rmfamily}\begin{itshape}
+}{
+	\end{itshape}\end{rmfamily}
+}
+
+%	Parlamentos
+
+\newenvironment{parla}[2][]{
+	\vspace{1em}
+	\begin{minipage}{1\linewidth}
+		\setlength{\parskip}{8pt} % Espacio entre párrafos
+		
+		\hspace{25mm} \textrm{\textbf{#2}} \par	\vspace{-8.5pt}
+		\ifthenelse{\not\equal{#1}{}}
+		{
+			\hspace{7mm} \parbox[t]{25em}{(#1)} \\
+		}{}
+		\begin{habla}
+}{
+	\end{habla}
+	\end{minipage}
+	\vspace{0em}
+}
+
+\newenvironment{habla}{
+	\leftskip=10mm 
+	\rightskip=10mm
+}{\par}
+
+% Continuación
+\newcommand{\cont}{\textsc{\hspace{0.5ex} (cont.)}}
+
+% Resaltar personajes
+\newcommand{\personaje}[1]{\emph{\textsf{#1}}}
+
+% Final de un texto
+\newcommand{\fintexto}{
+	\begin{center}
+		\vspace{4em}
+		{\large \fontfamily{lmss}\selectfont \bfseries FIN}
+	\end{center}
+}

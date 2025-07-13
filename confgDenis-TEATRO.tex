@@ -1,3 +1,5 @@
+% Esta configuración trae adaptaciones específicas para usar verso
+
 %---------------------------------------------------------------------------
 %    Configuración y Paquetes
 %---------------------------------------------------------------------------
@@ -9,19 +11,19 @@
 
 \usepackage[letterpaper]{geometry}	% Dimensiones del documento
 \geometry{
-	left = 45mm,
-	right = 45mm,
-	top = 45mm,
-	bottom = 45mm,
+	left = 25mm,
+	right = 25mm,
+	top = 25mm,
+	bottom = 25mm,
 }
 
 %------------------------------------------------
 %   Tipografía
 
-\usepackage[T1]{fontenc} 	% Usar fuentes bonitas
-\usepackage{notomath}		% Fuente para Serif y Mono
-
-\usepackage{atkinson}		% Fuente Sans Serif (anti dislexia)
+\usepackage[T1]{fontenc}	% Usar fuentes bonitas
+\usepackage{notomath}	% Fuente para Serif
+\usepackage{courierten}	% Fuente para Mono
+\usepackage{atkinson}	% Fuente Sans Serif (anti dislexia)
 \renewcommand*\familydefault{\sfdefault} % Activar Sans Serif
 
 \usepackage{sectsty}			% Paquete para usar el comando allsectionsfont
@@ -36,12 +38,24 @@
 
 \usepackage[defaultlines=3,all]{nowidow} % Evita las líneas huérfanas
 
-\setcounter{secnumdepth}{0} % Hacer que las secciones no se numeren
+\usepackage{setspace} % Definir separaciones
+% En este caso, se utilizó para modificar el interlineado en una parte específica.
+
+\usepackage{multicol} % Usar varias columnas
+\setlength{\columnsep}{0.6cm} % Separación entre las columnas
 
 %------------------------------------------------
-%   Tabla de contenidos (TdC)
+%   Titulos
 
-\addto\captionsspanish{ % Modificar subtítulos en la TdC, cambiados por Babel
+\setcounter{secnumdepth}{0} % Hacer que las secciones no se numeren
+
+\usepackage{titlesec} % Para hacer modificaciones en los titulos
+\titlespacing{\subsection}{0cm}{0pt}{-2pt} % Espaciado de la subsección (iz, ant, desp)
+
+%------------------------------------------------
+%   Tabla de contenidos
+
+\addto\captionsspanish{ % Modificar subtítulos cambiados por Babel
 	\renewcommand{\contentsname}{\begin{center}\rmfamily Cuadros\end{center}}
 }
 
@@ -54,9 +68,23 @@
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % Añadir puntos
 
 %------------------------------------------------
-%   Utilidades
+%   Resaltado y color
 
-\usepackage[hidelinks]{hyperref} % Permite los hipervínculos
+\usepackage{xcolor} % Uso de color
+\usepackage{soul}	% Hacer resaltados con color
+
+% Comando para resaltar en cualquier color (incluidas combinaciones)
+\DeclareRobustCommand{\hlc}[2][yellow]{{%
+		\colorlet{foo}{#1}%
+		\sethlcolor{foo}\hl{#2}}%
+}
+
+% IMPORTANTE, los signos de porcentaje (%) son para evitar espacios indeseados al momento de ejecutar el comando. Por favor, no retirarlos de la definición.
+
+%------------------------------------------------
+%   Más utilidades
+
+\usepackage[hidelinks]{hyperref} % Para hacer hipervínculos
 \usepackage{ifthen}	% Poder evaluar condicionales
 
 %---------------------------------------------------------------------------
@@ -77,6 +105,24 @@
 }{
 	\end{itshape}\end{rmfamily}
 }
+
+%	Indicaciones ténicas
+\newenvironment{tecnico}{
+	\vspace{1ex}
+	\hspace{\fill}
+	\begin{minipage}{6.5cm}
+		\setstretch{1.0}
+		\setlength{\parskip}{6pt} % Espacio entre párrafos
+		
+		\begin{flushleft}
+			\ttfamily
+			\small
+}{
+		\end{flushleft}
+	\end{minipage}
+	\hspace{2cm}
+	\vspace{1ex}
+}	
 
 %	Parlamentos
 
@@ -102,6 +148,25 @@
 	\rightskip=10mm
 }{\par}
 
+% Versos y canciones
+\newenvironment{versomio}{
+	\begin{flushleft}
+			\small
+			\setstretch{1.0}
+}{
+	\end{flushleft}
+}
+
+\newenvironment{versomiodo}{
+	\begin{flushleft}
+		\begin{multicols}{2}
+			\small
+			\setstretch{1.0}
+}{
+		\end{multicols}
+	\end{flushleft}
+}
+
 % Continuación
 \newcommand{\cont}{\textsc{\hspace{0.5ex} (cont.)}}
 
@@ -114,4 +179,9 @@
 		\vspace{4em}
 		{\large \fontfamily{lmss}\selectfont \bfseries FIN}
 	\end{center}
+}
+
+\newcommand{\Dotfill}{
+	\vspace{-8pt}
+	\dotfill
 }

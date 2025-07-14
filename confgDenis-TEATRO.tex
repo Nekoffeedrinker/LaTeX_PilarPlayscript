@@ -11,8 +11,8 @@
 
 \usepackage[letterpaper]{geometry}	% Dimensiones del documento
 \geometry{
-	left = 25mm,
-	right = 25mm,
+	left = 40mm,
+	right = 40mm,
 	top = 25mm,
 	bottom = 25mm,
 }
@@ -60,8 +60,10 @@
 %------------------------------------------------
 %   Tabla de contenidos
 
+\newcommand{\ToCName}{Escenas}
+
 \addto\captionsspanish{ % Modificar subtítulos cambiados por Babel
-	\renewcommand{\contentsname}{\begin{center}\rmfamily Cuadros\end{center}}
+	\renewcommand{\contentsname}{\begin{center}\rmfamily \ToCName\end{center}}
 }
 
 \usepackage{tocloft} % Para personalizar la tabla de contenidos
@@ -94,6 +96,7 @@
 \usepackage{graphicx} 	% Incluir gráficos en el documento
 \usepackage{tikz}		% Comandos de dibujo y posicionamiento
 \usetikzlibrary{babel,calc} % Librerias para TikZ
+\usepackage{calc} % Calcular longitudes
 
 
 
@@ -120,7 +123,7 @@
 		\begin{flushleft}
 			\ttfamily
 			\small
-}{
+		}{
 		\end{flushleft}
 	\end{minipage}
 	\hspace{2cm}
@@ -131,12 +134,19 @@
 %   Acotaciones
 \newenvironment{acotado}{
 	\begin{rmfamily}\begin{itshape}
-}{
+		}{
 	\end{itshape}\end{rmfamily}
 }
 
 \newcommand{\acotar}[1]{
-	\hspace{7mm} \parbox[t]{25em}{(#1)}
+	\vspace{-4pt}%
+	\hspace{7mm}%
+	\parbox[c]{\linewidth-34mm}{(#1)}%
+	\par \vspace{-4pt}
+}
+
+\newcommand{\pegado}{
+	\vspace{-4pt}
 }
 
 %------------------------------------------------
@@ -150,7 +160,9 @@
 		\begin{habla}
 			\ifthenelse{\not\equal{#1}{}}
 			{
-				\acotar{#1} \par \vspace{-8pt}
+				\vspace{4pt}%
+				\acotar{#1}%
+				\vspace{-4pt}%
 			}{}
 		}{
 		\end{habla}
@@ -167,22 +179,22 @@
 % Versos y canciones
 
 %\newenvironment{versomio}{
-%	\begin{flushleft}
-%			\small
-%			\setstretch{1.0}
-%}{
-%	\end{flushleft}
-%}
+	%	\begin{flushleft}
+		%			\small
+		%			\setstretch{1.0}
+		%}{
+		%	\end{flushleft}
+	%}
 %
 %\newenvironment{versomiodo}{
-%	\begin{flushleft}
-%		\begin{multicols}{2}
-%			\small
-%			\setstretch{1.0}
-%}{
-%		\end{multicols}
-%	\end{flushleft}
-%}
+	%	\begin{flushleft}
+		%		\begin{multicols}{2}
+			%			\small
+			%			\setstretch{1.0}
+			%}{
+			%		\end{multicols}
+		%	\end{flushleft}
+	%}
 
 %------------------------------------------------
 
@@ -193,10 +205,10 @@
 \newcommand{\personaje}[1]{\emph{\textsf{#1}}}
 
 % Final de un texto
-\newcommand{\fintexto}{
+\newcommand{\fintexto}[1][FIN]{
 	\begin{center}
 		\vspace{4em}
-		{\large \fontfamily{lmss}\selectfont \bfseries FIN}
+		{\large \fontfamily{lmss}\selectfont \bfseries #1}
 	\end{center}
 }
 
@@ -204,51 +216,4 @@
 \newcommand{\Dotfill}{
 	\vspace{-8pt}
 	\dotfill
-}
-
-
-
-%---------------------------------------------------------------------------
-%    Portada en tiks
-%---------------------------------------------------------------------------
-
-\newcommand{\portada}{
-	
-	\begin{tikzpicture}[remember picture,overlay]
-		\coordinate (title) at ($(current page.north)+(0,-25mm)+(0,10mm)$);
-		\coordinate (tituba) at ($(current page.south)+(0,25mm)$);
-		
-		\node[inner sep=0pt,anchor=north] at (title) {\includegraphics{anexos/vector-portada_Marco_luces.pdf}};
-		
-		\node[inner sep=0pt,anchor=north] at ([shift={(0,-40mm)}]title) {
-			\begin{minipage}[m][50mm]{140mm}
-				\setlength{\parskip}{6pt}
-				\centering
-				
-				{\fontsize{35}{42}\selectfont \rmfamily \bfseries\itshape \encabezado}
-				
-				{\large \rmfamily \scshape \subencabezado}
-				
-				\vspace{8pt}
-				
-				{\large \emph{De:} \dramaturgo}
-			\end{minipage}
-		};
-		
-		\node[inner sep=0pt,anchor=north] at ([shift={(0,-105mm)}]title) {
-			\begin{minipage}{140mm}
-				\setlength{\parskip}{10pt}
-				\centering
-				\large
-				
-				Dirección: \director
-				
-				Rev. \fecha
-				
-			\end{minipage}
-		};
-		
-		\node[inner sep=0pt,anchor=south] at (tituba) {\includegraphics[height=20mm]{anexos/vector-TITUBA_Expand_1inkB.pdf}};
-	\end{tikzpicture}
-	
 }

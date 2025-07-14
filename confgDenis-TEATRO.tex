@@ -1,4 +1,4 @@
-% Esta configuración trae adaptaciones específicas para usar verso
+% Esta configuración tiene desabilitadas las adecuaciones para verso
 
 %---------------------------------------------------------------------------
 %    Configuración y Paquetes
@@ -32,7 +32,7 @@
 %------------------------------------------------
 %   Párrafos
 
-\renewcommand{\baselinestretch}{1.2} 	% Interlineado
+\renewcommand{\baselinestretch}{1.15} 	% Interlineado
 \setlength{\parskip}{8pt} 		% Espacio entre párrafos
 \setlength{\parindent}{0pt} 	% Sangria de primer párrafo
 
@@ -41,8 +41,11 @@
 \usepackage{setspace} % Definir separaciones
 % En este caso, se utilizó para modificar el interlineado en una parte específica.
 
-\usepackage{multicol} % Usar varias columnas
-\setlength{\columnsep}{0.6cm} % Separación entre las columnas
+
+% Varias columnas
+
+%\usepackage{multicol} % Usar varias columnas
+%\setlength{\columnsep}{0.6cm} % Separación entre las columnas
 
 %------------------------------------------------
 %   Titulos
@@ -50,7 +53,9 @@
 \setcounter{secnumdepth}{0} % Hacer que las secciones no se numeren
 
 \usepackage{titlesec} % Para hacer modificaciones en los titulos
-\titlespacing{\subsection}{0cm}{0pt}{-2pt} % Espaciado de la subsección (iz, ant, desp)
+% El ajuste se realiza en {izquierda} {anterior} {posterior}
+\titlespacing{\section}{0cm}{8pt}{-4pt} % Espaciado de la sección
+\titlespacing{\subsection}{0cm}{6pt}{-6pt} % Espaciado de la subsección
 
 %------------------------------------------------
 %   Tabla de contenidos
@@ -78,7 +83,6 @@
 		\colorlet{foo}{#1}%
 		\sethlcolor{foo}\hl{#2}}%
 }
-
 % IMPORTANTE, los signos de porcentaje (%) son para evitar espacios indeseados al momento de ejecutar el comando. Por favor, no retirarlos de la definición.
 
 %------------------------------------------------
@@ -86,6 +90,12 @@
 
 \usepackage[hidelinks]{hyperref} % Para hacer hipervínculos
 \usepackage{ifthen}	% Poder evaluar condicionales
+
+\usepackage{graphicx} 	% Incluir gráficos en el documento
+\usepackage{tikz}		% Comandos de dibujo y posicionamiento
+\usetikzlibrary{babel,calc} % Librerias para TikZ
+
+
 
 %---------------------------------------------------------------------------
 %    Macros y definiciones
@@ -98,15 +108,8 @@
 % {\par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd}
 
 %------------------------------------------------
-%   Acotaciones
-
-\newenvironment{acotado}{
-	\begin{rmfamily}\begin{itshape}
-}{
-	\end{itshape}\end{rmfamily}
-}
-
 %	Indicaciones ténicas
+
 \newenvironment{tecnico}{
 	\vspace{1ex}
 	\hspace{\fill}
@@ -124,23 +127,35 @@
 	\vspace{1ex}
 }	
 
-%	Parlamentos
+%------------------------------------------------
+%   Acotaciones
+\newenvironment{acotado}{
+	\begin{rmfamily}\begin{itshape}
+}{
+	\end{itshape}\end{rmfamily}
+}
 
+\newcommand{\acotar}[1]{
+	\hspace{7mm} \parbox[t]{25em}{(#1)}
+}
+
+%------------------------------------------------
+%	Parlamentos
 \newenvironment{parla}[2][]{
-	\vspace{1em}
+	\vspace{6pt}
 	\begin{minipage}{1\linewidth}
 		\setlength{\parskip}{8pt} % Espacio entre párrafos
 		
-		\hspace{25mm} \textrm{\textbf{#2}} \par	\vspace{-8.5pt}
-		\ifthenelse{\not\equal{#1}{}}
-		{
-			\hspace{7mm} \parbox[t]{25em}{(#1)} \\
-		}{}
+		\hspace{25mm} \textrm{\textbf{#2}} \par \vspace{-11pt}
 		\begin{habla}
-}{
-	\end{habla}
+			\ifthenelse{\not\equal{#1}{}}
+			{
+				\acotar{#1} \par \vspace{-8pt}
+			}{}
+		}{
+		\end{habla}
 	\end{minipage}
-	\vspace{0em}
+	\vspace{-4pt}
 }
 
 \newenvironment{habla}{
@@ -148,27 +163,31 @@
 	\rightskip=10mm
 }{\par}
 
+%------------------------------------------------
 % Versos y canciones
-\newenvironment{versomio}{
-	\begin{flushleft}
-			\small
-			\setstretch{1.0}
-}{
-	\end{flushleft}
-}
 
-\newenvironment{versomiodo}{
-	\begin{flushleft}
-		\begin{multicols}{2}
-			\small
-			\setstretch{1.0}
-}{
-		\end{multicols}
-	\end{flushleft}
-}
+%\newenvironment{versomio}{
+%	\begin{flushleft}
+%			\small
+%			\setstretch{1.0}
+%}{
+%	\end{flushleft}
+%}
+%
+%\newenvironment{versomiodo}{
+%	\begin{flushleft}
+%		\begin{multicols}{2}
+%			\small
+%			\setstretch{1.0}
+%}{
+%		\end{multicols}
+%	\end{flushleft}
+%}
+
+%------------------------------------------------
 
 % Continuación
-\newcommand{\cont}{\textsc{\hspace{0.5ex} (cont.)}}
+\newcommand{\cont}{\textbf{\hspace{0.5ex} (cont.)}}
 
 % Resaltar personajes
 \newcommand{\personaje}[1]{\emph{\textsf{#1}}}
@@ -181,7 +200,55 @@
 	\end{center}
 }
 
+% Linea de puntos
 \newcommand{\Dotfill}{
 	\vspace{-8pt}
 	\dotfill
+}
+
+
+
+%---------------------------------------------------------------------------
+%    Portada en tiks
+%---------------------------------------------------------------------------
+
+\newcommand{\portada}{
+	
+	\begin{tikzpicture}[remember picture,overlay]
+		\coordinate (title) at ($(current page.north)+(0,-25mm)+(0,10mm)$);
+		\coordinate (tituba) at ($(current page.south)+(0,25mm)$);
+		
+		\node[inner sep=0pt,anchor=north] at (title) {\includegraphics{anexos/vector-portada_Marco_luces.pdf}};
+		
+		\node[inner sep=0pt,anchor=north] at ([shift={(0,-40mm)}]title) {
+			\begin{minipage}[m][50mm]{140mm}
+				\setlength{\parskip}{6pt}
+				\centering
+				
+				{\fontsize{35}{42}\selectfont \rmfamily \bfseries\itshape \encabezado}
+				
+				{\large \rmfamily \scshape \subencabezado}
+				
+				\vspace{8pt}
+				
+				{\large \emph{De:} \dramaturgo}
+			\end{minipage}
+		};
+		
+		\node[inner sep=0pt,anchor=north] at ([shift={(0,-105mm)}]title) {
+			\begin{minipage}{140mm}
+				\setlength{\parskip}{10pt}
+				\centering
+				\large
+				
+				Dirección: \director
+				
+				Rev. \fecha
+				
+			\end{minipage}
+		};
+		
+		\node[inner sep=0pt,anchor=south] at (tituba) {\includegraphics[height=20mm]{anexos/vector-TITUBA_Expand_1inkB.pdf}};
+	\end{tikzpicture}
+	
 }

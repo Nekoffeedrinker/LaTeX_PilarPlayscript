@@ -6,11 +6,13 @@
 	\coordinate (title) at ($(current page.north)+(0,-25mm)+(0,10mm)$);
 	\coordinate (tituba) at ($(current page.south)+(0,25mm)$);
 	
-	%		\node[inner sep=0pt,opacity=0.1] at ($(current page.center)+(0,2mm)$) {\includegraphics[height=0.95\paperheight]{anexos/img-portada_Bunny.png}};
+	%	Poner la imagen de fondo
+%	\node[inner sep=0pt,opacity=0.03] at ($(current page.center)+(0,2mm)$) {\includegraphics[height=0.95\paperheight]{anexos/img-portada_Bunny.png}};
 	
+	%	Poner la imagen en el espacio sobrante
 	\node[inner sep=0pt,anchor=south,opacity=0.5] at ([shift={(0,30mm)}]tituba) {\includegraphics[height=80mm]{anexos/img-portada_Bunny.png}};
 	
-	\node[inner sep=0pt,anchor=north] at (title) {\includegraphics{anexos/vector-portada_Marco_luces.pdf}};
+	\node[inner sep=0pt,anchor=north] at (title) {\includegraphics{LaTeX_PilarPlayscript/vector-portada_Marco_luces.pdf}};
 	
 	\node[inner sep=0pt,anchor=north] at ([shift={(0,-40mm)}]title) {
 		\begin{minipage}[m][50mm]{140mm}
@@ -44,5 +46,5 @@
 		\end{minipage}
 	};
 	
-	\node[inner sep=0pt,anchor=south] at (tituba) {\includegraphics[height=20mm]{anexos/vector-TITUBA_Expand_1inkB.pdf}};
+	\node[inner sep=0pt,anchor=south] at (tituba) {\includegraphics[height=20mm]{LaTeX_PilarPlayscript/vector-TITUBA_Expand_1inkB.pdf}};
 \end{tikzpicture}

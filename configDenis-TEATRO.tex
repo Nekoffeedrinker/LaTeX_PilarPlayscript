@@ -1,21 +1,40 @@
-% Esta configuración tiene desabilitadas las adecuaciones para verso
+%---------------------------------------------------------------------------
+%    Configuración general
+%---------------------------------------------------------------------------
+%   Variables
 
-%---------------------------------------------------------------------------
-%    Configuración y Paquetes
-%---------------------------------------------------------------------------
-\usepackage[utf8]{inputenc} % Escribir caracteres latinos
-\usepackage[spanish,mexico,es-nodecimaldot]{babel} % Idioma español mexicano
+% Interlineado
+\newcommand{\PsepLine}{1.15}
+
+% Espacio entre párrafos
+\newlength{\PsepPar} \setlength{\PsepPar}{8pt}
+
+% Sangría de primer párrafo
+\newlength{\PsepIdent} \setlength{\PsepIdent}{0pt}
+
+% Separación de la secciones
+\newlength{\PsepLSection} \setlength{\PsepLSection}{0mm}
+\newlength{\PsepTSection} \setlength{\PsepTSection}{8pt}
+\newlength{\PSepBSection} \setlength{\PSepBSection}{-4pt}
+
+% Separación de las subsecciones
+\newlength{\PsepLSubsec} \setlength{\PsepLSubsec}{0mm}
+\newlength{\PsepTSubsec} \setlength{\PsepTSubsec}{6pt}
+\newlength{\PSepBSubsec} \setlength{\PSepBSubsec}{-6pt}
+
+% Separación de la sub-subsecciones
+\newlength{\PsepLSubsub} \setlength{\PsepLSubsub}{0mm}
+\newlength{\PsepTSubsub} \setlength{\PsepTSubsub}{6pt}
+\newlength{\PSepBSubsub} \setlength{\PSepBSubsub}{-6pt}
+
+% Nombre de la tabla de contenidos
+\newcommand{\ToCName}{Escenas}
+
 
 %------------------------------------------------
-%   Márgenes
-
-\usepackage[letterpaper]{geometry}	% Dimensiones del documento
-\geometry{
-	left = 40mm,
-	right = 40mm,
-	top = 25mm,
-	bottom = 25mm,
-}
+%   Idioma
+\usepackage[utf8]{inputenc} % Escribir caracteres latinos
+\usepackage[spanish,mexico,es-nodecimaldot]{babel} % Idioma español mexicano
 
 %------------------------------------------------
 %   Tipografía
@@ -32,20 +51,15 @@
 %------------------------------------------------
 %   Párrafos
 
-\renewcommand{\baselinestretch}{1.15} 	% Interlineado
-\setlength{\parskip}{8pt} 		% Espacio entre párrafos
-\setlength{\parindent}{0pt} 	% Sangria de primer párrafo
-
-\usepackage[defaultlines=3,all]{nowidow} % Evita las líneas huérfanas
-
 \usepackage{setspace} % Definir separaciones
 % En este caso, se utilizó para modificar el interlineado en una parte específica.
 
+\renewcommand{\baselinestretch}{\PsepLine} 	% Interlineado
+\setlength{\parskip}{\PsepPar} 		% Espacio entre párrafos
+\setlength{\parindent}{\PsepIdent} 	% Sangria de primer párrafo
 
-% Varias columnas
-
-%\usepackage{multicol} % Usar varias columnas
-%\setlength{\columnsep}{0.6cm} % Separación entre las columnas
+%   Líneas Viudas o uerfanas
+\usepackage[defaultlines=3,all]{nowidow} % Evita las líneas huérfanas
 
 %------------------------------------------------
 %   Titulos
@@ -54,15 +68,15 @@
 
 \usepackage{titlesec} % Para hacer modificaciones en los titulos
 % El ajuste se realiza en {izquierda} {anterior} {posterior}
-\titlespacing{\section}{0cm}{8pt}{-4pt} % Espaciado de la sección
-\titlespacing{\subsection}{0cm}{6pt}{-6pt} % Espaciado de la subsección
+\titlespacing{\section}{\PsepLSection}{\PsepTSection}{\PSepBSection} % Espaciado de la sección
+\titlespacing{\subsection}{\PsepLSubsec}{\PsepTSubsec}{\PSepBSubsec} % Espaciado de la subsección
+
 
 %------------------------------------------------
 %   Tabla de contenidos
 
-\newcommand{\ToCName}{Escenas}
-
-\addto\captionsspanish{ % Modificar subtítulos cambiados por Babel
+% Modificar los títulos cambiados por Babel
+\addto\captionsspanish{ 
 	\renewcommand{\contentsname}{\begin{center}\rmfamily \ToCName\end{center}}
 }
 
@@ -100,103 +114,81 @@
 
 
 
-%---------------------------------------------------------------------------
-%    Macros y definiciones
-%---------------------------------------------------------------------------
-
-%   Evitar saltos de página | NO SE USÓ. REMPLAZADO POR MINIPAGE
-
-% \newenvironment{absolutelynopagebreak}
-% {\par\nobreak\vfil\penalty0\vfilneg\vtop\bgroup}
-% {\par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd}
-
-%------------------------------------------------
-%	Indicaciones ténicas
-
-\newenvironment{tecnico}{
-	\vspace{1ex}
-	\hspace{\fill}
-	\begin{minipage}{6.5cm}
-		\setstretch{1.0}
-		\setlength{\parskip}{6pt} % Espacio entre párrafos
-		
-		\begin{flushleft}
-			\ttfamily
-			\small
-		}{
-		\end{flushleft}
-	\end{minipage}
-	\hspace{2cm}
-	\vspace{1ex}
-}	
+%-----------------------------------------------------------
+%    Macros para teatro
+%-----------------------------------------------------------
 
 %------------------------------------------------
 %   Acotaciones
+
 \newenvironment{acotado}{
 	\begin{rmfamily}\begin{itshape}
-		}{
+}{
 	\end{itshape}\end{rmfamily}
 }
 
 \newcommand{\acotar}[1]{
-	\vspace{-4pt}%
+	\vspace{-\PsepPar / 2}%
 	\hspace{7mm}%
 	\parbox[c]{\linewidth-34mm}{(#1)}%
-	\par \vspace{-4pt}
+	\par \vspace{-\PsepPar / 2}
 }
 
 \newcommand{\pegado}{
-	\vspace{-4pt}
+	\vspace{-\PsepPar / 2}
 }
+
 
 %------------------------------------------------
 %	Parlamentos
-\newenvironment{parla}[2][]{
-	\vspace{6pt}
-	\begin{minipage}{1\linewidth}
-		\setlength{\parskip}{8pt} % Espacio entre párrafos
-		
-		\hspace{25mm} \textrm{\textbf{#2}} \par \vspace{-11pt}
-		\begin{habla}
-			\ifthenelse{\not\equal{#1}{}}
-			{
-				\vspace{4pt}%
-				\acotar{#1}%
-				\vspace{-4pt}%
-			}{}
-		}{
-		\end{habla}
-	\end{minipage}
-	\vspace{-4pt}
-}
 
 \newenvironment{habla}{
 	\leftskip=10mm 
 	\rightskip=10mm
 }{\par}
 
-%------------------------------------------------
-% Versos y canciones
+\newenvironment{parla}[2][]{
+	\vspace{\PsepPar / 2 + 2pt}
+	\begin{minipage}{1\linewidth}
+		\setlength{\parskip}{\PsepPar} % Espacio entre párrafos
+		
+		\hspace{25mm} \textrm{\textbf{#2}} \par \vspace{-2\PsepPar + \PsepPar / 2 + 1pt}
+		\begin{habla}
+			\ifthenelse{\not\equal{#1}{}}{
+				\vspace{\PsepPar / 2}%
+				\acotar{#1}%
+				\vspace{-\PsepPar / 2}%
+			}{}
+}{
+		\end{habla}
+	\end{minipage}
+	\vspace{-\PsepPar / 2}
+}
 
-%\newenvironment{versomio}{
-	%	\begin{flushleft}
-		%			\small
-		%			\setstretch{1.0}
-		%}{
-		%	\end{flushleft}
-	%}
-%
-%\newenvironment{versomiodo}{
-	%	\begin{flushleft}
-		%		\begin{multicols}{2}
-			%			\small
-			%			\setstretch{1.0}
-			%}{
-			%		\end{multicols}
-		%	\end{flushleft}
-	%}
 
 %------------------------------------------------
+%	Indicaciones ténicas
+
+%\newenvironment{tecnico}{
+%	\vspace{1ex}
+%	\hspace{\fill}
+%	\begin{minipage}{6.5cm}
+%		\setstretch{1.0}
+%		\setlength{\parskip}{6pt} % Espacio entre párrafos
+%		
+%		\begin{flushleft}
+%			\ttfamily
+%			\small
+%}{
+%		\end{flushleft}
+%	\end{minipage}
+%	\hspace{2cm}
+%	\vspace{1ex}
+%}	
+
+
+%------------------------------------------------
+%	Utilidades
 
 % Continuación
 \newcommand{\cont}{\textbf{\hspace{0.5ex} (cont.)}}
@@ -217,3 +209,76 @@
 	\vspace{-8pt}
 	\dotfill
 }
+
+
+%-----------------------------------------------------------
+%    Verso y dobles columnas
+%-----------------------------------------------------------
+
+\usepackage{multicol} % Usar varias columnas
+\setlength{\columnsep}{0.6cm} % Separación entre las columnas
+
+%------------------------------------------------
+% Versos y canciones
+
+\newenvironment{versomio}{
+	\begin{flushleft}
+		\small
+		\setstretch{1.0}
+	}{
+	\end{flushleft}
+}
+
+\newenvironment{versomiodo}{
+	\begin{flushleft}
+		\begin{multicols}{2}
+			\small
+			\setstretch{1.0}
+}{
+		\end{multicols}
+	\end{flushleft}
+}
+
+
+
+
+
+
+
+
+%---------------------------------------------------------------------------
+%    Configuración de cada texto
+%---------------------------------------------------------------------------
+
+%   Márgenes
+\usepackage[letterpaper]{geometry}	% Dimensiones del documento
+\geometry{
+	left = 40mm,
+	right = 40mm,
+	top = 25mm,
+	bottom = 25mm,
+}
+
+%---------------------------------------
+%   Redefinir variables
+%
+%\renewcommand{\PsepLine}{1.15} % Interlineado
+%\setlength{\PsepPar}{8pt} % Parrafo sep
+%\setlength{\PsepIdent}{0pt} % Sangrado sep
+%
+%% Secciones
+%\setlength{\PsepLSection}{0mm}
+%\setlength{\PsepTSection}{8pt}
+%\setlength{\PSepBSection}{-4pt}
+%
+%% Sub secciones
+%\setlength{\PsepLSubsec}{0mm}
+%\setlength{\PsepTSubsec}{6pt}
+%\setlength{\PSepBSubsec}{-6pt}
+%
+%% Sub sub secciones
+%\setlength{\PsepLSubsub}{0mm}
+%\setlength{\PsepTSubsub}{6pt}
+%\setlength{\PSepBSubsub}{-6pt}
+%
+%\renewcommand{\ToCName}{Escenas}

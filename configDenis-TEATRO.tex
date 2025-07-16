@@ -1,16 +1,30 @@
 %---------------------------------------------------------------------------
 %    Configuración general
 %---------------------------------------------------------------------------
+\usepackage{calc} % Calcular longitudes
+
 %   Variables
 
 % Interlineado
 \newcommand{\PsepLine}{1.15}
 
 % Espacio entre párrafos
-\newlength{\PsepPar} \setlength{\PsepPar}{8pt}
+\newlength{\PsepPar} \setlength{\PsepPar}{6pt}
 
 % Sangría de primer párrafo
-\newlength{\PsepIdent} \setlength{\PsepIdent}{0pt}
+\newlength{\PsepIdent} \setlength{\PsepIdent}{0mm}
+
+% Sangría del texto del parlamento
+\newlength{\PsepLhabla} \setlength{\PsepLhabla}{10mm}
+\newlength{\PsepRhabla} \setlength{\PsepRhabla}{10mm}
+
+% Sangría del texto de la acotación
+\newlength{\PsepLacotar} \setlength{\PsepLacotar}{\PsepLhabla + 7mm}
+\newlength{\PsepRacotar} \setlength{\PsepRacotar}{\PsepLhabla + 7mm}
+
+% Sangría del texto del nombre del personaje
+\newlength{\PsepLpersonaj} \setlength{\PsepLpersonaj}{\PsepLhabla + 15mm}
+
 
 % Separación de la secciones
 \newlength{\PsepLSection} \setlength{\PsepLSection}{0mm}
@@ -64,6 +78,9 @@
 %   Líneas Viudas o uerfanas
 \usepackage[defaultlines=3,all]{nowidow} % Evita las líneas huérfanas
 
+\usepackage{needspace}
+
+
 %------------------------------------------------
 %   Titulos
 
@@ -113,13 +130,43 @@
 \usepackage{graphicx} 	% Incluir gráficos en el documento
 \usepackage{tikz}		% Comandos de dibujo y posicionamiento
 \usetikzlibrary{babel,calc} % Librerias para TikZ
-\usepackage{calc} % Calcular longitudes
-
-
 
 %-----------------------------------------------------------
 %    Macros para teatro
 %-----------------------------------------------------------
+
+% COMANDOS VIEJOS
+
+%\newcommand{\acotar}[1]{
+%	\vspace{-\PsepPar / 2}%
+%	\hspace{7mm}%
+%	\parbox[c]{\linewidth-34mm}{(#1)}%
+%	\par \vspace{-\PsepPar / 2}
+%}
+%
+%
+%\newenvironment{habla}{
+%	\leftskip=10mm 
+%	\rightskip=10mm
+%}{\par}
+%
+%\newenvironment{parla}[2][]{
+%	\vspace{\PsepPar / 2 + 2pt}
+%	\begin{minipage}{1\linewidth}
+%		\setlength{\parskip}{\PsepPar} % Espacio entre párrafos
+%		
+%		\hspace{25mm} \textrm{\textbf{#2}} \par \vspace{-2\PsepPar + \PsepPar / 2 + 1pt}
+%		\begin{habla}
+%			\ifthenelse{\not\equal{#1}{}}{
+%				\vspace{\PsepPar / 2}%
+%				\acotar{#1}%
+%				\vspace{-\PsepPar / 2}%
+%			}{}
+%}{
+%		\end{habla}
+%	\end{minipage}
+%	\vspace{-\PsepPar / 2}
+%}
 
 %------------------------------------------------
 %   Acotaciones
@@ -131,41 +178,50 @@
 }
 
 \newcommand{\acotar}[1]{
-	\vspace{-\PsepPar / 2}%
-	\hspace{7mm}%
-	\parbox[c]{\linewidth-34mm}{(#1)}%
-	\par \vspace{-\PsepPar / 2}
+	\begingroup
+		\leftskip=\PsepLacotar
+		\rightskip=\PsepRacotar
+		(\textit{#1})
+		\par
+	\endgroup
+	\vspace{-\PsepPar}
 }
 
-\newcommand{\pegado}{
-	\vspace{-\PsepPar / 2}
+\newcommand{\sep}{
+	\vspace{\PsepPar}
 }
-
 
 %------------------------------------------------
 %	Parlamentos
 
 \newenvironment{habla}{
-	\leftskip=10mm 
-	\rightskip=10mm
-}{\par}
+	\vspace{-\PsepPar}
+	\begingroup
+		\setlength{\parskip}{\PsepPar}
+		\leftskip=\PsepLhabla
+		\rightskip=\PsepRhabla
+}{
+		\par
+	\endgroup
+}
 
 \newenvironment{parla}[2][]{
-	\vspace{\PsepPar / 2 + 2pt}
-	\begin{minipage}{1\linewidth}
-		\setlength{\parskip}{\PsepPar} % Espacio entre párrafos
-		
-		\hspace{25mm} \textrm{\textbf{#2}} \par \vspace{-2\PsepPar + \PsepPar / 2 + 1pt}
+	\Needspace{6\baselineskip}
+	\vspace{\PsepPar}
+	\begingroup
+		\setlength{\parskip}{0pt}
+		\begingroup
+			\leftskip=\PsepLpersonaj
+			\textrm{\textsc{#2}} \par
+		\endgroup
 		\begin{habla}
-			\ifthenelse{\not\equal{#1}{}}{
-				\vspace{\PsepPar / 2}%
-				\acotar{#1}%
-				\vspace{-\PsepPar / 2}%
-			}{}
+		\ifthenelse{\not\equal{#1}{}}{
+			\acotar{#1} \par
+		}{}
 }{
 		\end{habla}
-	\end{minipage}
-	\vspace{-\PsepPar / 2}
+	\endgroup
+	\vspace{\PsepPar}
 }
 
 
@@ -224,20 +280,20 @@
 %------------------------------------------------
 % Versos y canciones
 
-\newenvironment{versomio}{
-	\begin{flushleft}
-		\small
-		\setstretch{1.0}
-	}{
-	\end{flushleft}
-}
-
-\newenvironment{versomiodo}{
-	\begin{flushleft}
-		\begin{multicols}{2}
-			\small
-			\setstretch{1.0}
-}{
-		\end{multicols}
-	\end{flushleft}
-}
+%\newenvironment{versomio}{
+%	\begin{flushleft}
+%		\small
+%		\setstretch{1.0}
+%	}{
+%	\end{flushleft}
+%}
+%
+%\newenvironment{versomiodo}{
+%	\begin{flushleft}
+%		\begin{multicols}{2}
+%			\small
+%			\setstretch{1.0}
+%}{
+%		\end{multicols}
+%	\end{flushleft}
+%}

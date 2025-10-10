@@ -34,12 +34,12 @@
 % Separación de las subsecciones
 \newlength{\PsepLSubsec} \setlength{\PsepLSubsec}{0mm}
 \newlength{\PsepTSubsec} \setlength{\PsepTSubsec}{6pt}
-\newlength{\PSepBSubsec} \setlength{\PSepBSubsec}{-6pt}
+\newlength{\PSepBSubsec} \setlength{\PSepBSubsec}{-4pt}
 
 % Separación de la sub-subsecciones
 \newlength{\PsepLSubsub} \setlength{\PsepLSubsub}{0mm}
 \newlength{\PsepTSubsub} \setlength{\PsepTSubsub}{6pt}
-\newlength{\PSepBSubsub} \setlength{\PSepBSubsub}{-6pt}
+\newlength{\PSepBSubsub} \setlength{\PSepBSubsub}{-8pt}
 
 % Nombre de la tabla de contenidos
 \newcommand{\ToCName}{Escenas}
@@ -103,6 +103,15 @@
 % El ajuste se realiza en {izquierda} {anterior} {posterior}
 \titlespacing{\section}{\PsepLSection}{\PsepTSection}{\PSepBSection} % Espaciado de la sección
 \titlespacing{\subsection}{\PsepLSubsec}{\PsepTSubsec}{\PSepBSubsec} % Espaciado de la subsección
+
+\usepackage{titlesec}
+
+\titleformat{\subsection}
+{\centering\rmfamily\large\bfseries} % Formato del título: centrado, tamaño grande, negritas
+{}                       % Número de subsección | Para activarlo: \thesubsection
+{1em}                                  % Separación entre número y título
+{}                                     % Código antes del título
+
 
 
 %------------------------------------------------
@@ -219,13 +228,17 @@
 }
 
 \newenvironment{parla}[2][]{
-	\Needspace{6\baselineskip}
-	\vspace{\PsepPar}
+	\ifthenelse{\not\equal{#1}{}}{%
+		\Needspace{3\baselineskip}%
+	}{%
+		\Needspace{2\baselineskip}%
+	}%
+	\vspace{\PsepPar/2}
 	\begingroup
 		\setlength{\parskip}{0pt}
 		\begingroup
 			\leftskip=\PsepLpersonaj
-			\textrm{\textsc{#2}} \par
+			\noindent \textrm{\textsc{#2}} \par
 		\endgroup
 		\begin{habla}
 		\ifthenelse{\not\equal{#1}{}}{
@@ -234,7 +247,7 @@
 }{
 		\end{habla}
 	\endgroup
-	\vspace{\PsepPar}
+	\vspace{\PsepPar/2}
 }
 
 

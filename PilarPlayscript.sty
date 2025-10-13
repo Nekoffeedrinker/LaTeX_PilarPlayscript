@@ -1,0 +1,226 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{PilarPlayscript}[2025/10/13 Paquete para textos teatrales]
+
+%-----------------------------------------------------------
+%    Configuración de variables
+%-----------------------------------------------------------
+
+\RequirePackage{kvoptions}
+
+\SetupKeyvalOptions{
+	family=pilarteatro,
+	prefix=pilarteatro@
+}
+
+%-----------------------------
+%   Opciones con valores
+
+% Sangría del texto del parlamento
+\DeclareStringOption[10mm]{sepLhabla}  % valor por defecto: 10pt
+\DeclareStringOption[10mm]{sepRhabla}
+
+% Sangría del texto del acotación
+\DeclareStringOption[7mm]{incrLacotar}
+\DeclareStringOption[7mm]{incrRacotar}
+
+% Sangría del texto del nombre del personaje
+\DeclareStringOption[15mm]{incrLpersonaj}
+
+
+%-----------------------------
+%   Opciones booleanas
+
+\DeclareBoolOption{verso}
+\DeclareBoolOption{multicol}
+
+\ProcessKeyvalOptions*
+
+
+%-----------------------------------------------------------
+
+\newlength{\sepParrafo} \setlength{\sepParrafo}{6pt}
+
+%-----------------------------------------------------------
+%    Macros para teatro
+%-----------------------------------------------------------
+
+% COMANDOS VIEJOS
+
+%\newcommand{\acotar}[1]{
+	%	\vspace{-\sepParrafo / 2}%
+	%	\hspace{7mm}%
+	%	\parbox[c]{\linewidth-34mm}{(#1)}%
+	%	\par \vspace{-\sepParrafo / 2}
+	%}
+%
+%
+%\newenvironment{habla}{
+	%	\leftskip=10mm 
+	%	\rightskip=10mm
+	%}{\par}
+%
+%\newenvironment{parla}[2][]{
+	%	\vspace{\sepParrafo / 2 + 2pt}
+	%	\begin{minipage}{1\linewidth}
+		%		\setlength{\parskip}{\sepParrafo} % Espacio entre párrafos
+		%		
+		%		\hspace{25mm} \textrm{\textbf{#2}} \par \vspace{-2\sepParrafo + 
+		%\sepParrafo / 2 + 1pt}
+		%		\begin{habla}
+			%			\ifthenelse{\not\equal{#1}{}}{
+				%				\vspace{\sepParrafo / 2}%
+				%				\acotar{#1}%
+				%				\vspace{-\sepParrafo / 2}%
+				%			}{}
+			%}{
+			%		\end{habla}
+		%	\end{minipage}
+	%	\vspace{-\sepParrafo / 2}
+	%}
+
+%------------------------------------------------
+%   Acotaciones
+
+\newenvironment{acotado}{
+	\begin{rmfamily}\begin{itshape}
+		}{
+	\end{itshape}\end{rmfamily}
+}
+
+\newcommand{\acotar}[1]{
+	\begingroup
+	\leftskip=\dimexpr\pilarteatro@sepLhabla + \pilarteatro@incrLacotar\relax
+	\rightskip=\dimexpr\pilarteatro@sepRhabla + \pilarteatro@incrRacotar\relax
+	(\textit{#1})
+	\par
+	\endgroup
+	\vspace{-\sepParrafo}
+}
+
+\newcommand{\sep}{
+	\vspace{\sepParrafo}
+}
+
+%------------------------------------------------
+%	Parlamentos
+
+\newenvironment{habla}{
+	\vspace{-\sepParrafo}
+	\begingroup
+	\setlength{\parskip}{\sepParrafo}
+	\leftskip=\dimexpr\pilar@sepLhabla\relax
+	\rightskip=\dimexpr\pilar@sepRhabla\relax
+}{
+	\par
+	\endgroup
+}
+
+\newenvironment{parla}[2][]{
+	\ifthenelse{\not\equal{#1}{}}{%
+		\Needspace{3\baselineskip}%
+	}{%
+		\Needspace{2\baselineskip}%
+	}%
+	\vspace{\sepParrafo/2}
+	\begingroup
+	\setlength{\parskip}{0pt}
+	\begingroup
+	\leftskip=\dimexpr\pilarteatro@sepLhabla + \pilarteatro@incrLpersonaj\relax
+	\noindent \textrm{\textsc{#2}} \par
+	\endgroup
+	\begin{habla}
+		\ifthenelse{\not\equal{#1}{}}{
+			\acotar{#1} \par
+		}{}
+	}{
+	\end{habla}
+	\endgroup
+	\vspace{\sepParrafo/2}
+}
+
+
+%------------------------------------------------
+%	Utilidades
+
+% Continuación
+\newcommand{\cont}{\textbf{\hspace{0.5ex} (cont.)}}
+
+% Resaltar personajes
+\newcommand{\personaje}[1]{\emph{\textsf{#1}}}
+
+% Final de un texto
+\newcommand{\fintexto}[1][FIN]{
+	\begin{center}
+		\vspace{4em}
+		{\large \fontfamily{lmss}\selectfont \bfseries #1}
+	\end{center}
+}
+
+% Linea de puntos
+\newcommand{\Dotfill}{
+	\vspace{-8pt}
+	\dotfill
+}
+
+
+%-----------------------------------------------------------
+%    Verso y dobles columnas
+%-----------------------------------------------------------
+
+\ifpilarteatro@multicol
+	% Código para activar modo doble columna
+
+	\RequirePackage{multicol} % Usar varias columnas
+	\setlength{\columnsep}{0.6cm} % Separación entre las columnas
+\fi
+
+
+%------------------------------------------------
+% Versos y canciones
+
+\ifpilarteatro@verso
+	% Código para activar modo verso
+
+	\global\pilarteatro@multicoltrue
+
+	\newenvironment{versomio}{
+		\begin{flushleft}
+			\small
+			\setstretch{1.0}
+	}{
+		\end{flushleft}
+	}
+
+	\newenvironment{versomiodo}{
+		\begin{flushleft}
+			\begin{multicols}{2}
+				\small
+				\setstretch{1.0}
+	}{
+			\end{multicols}
+		\end{flushleft}
+	}
+\fi
+
+
+
+%-----------------------------------------------------------
+%    Indicaciones ténicas
+%-----------------------------------------------------------
+
+%\newenvironment{tecnico}{
+	%	\vspace{1ex}
+	%	\hspace{\fill}
+	%	\begin{minipage}{6.5cm}
+		%		\setstretch{1.0}
+		%		\setlength{\parskip}{6pt} % Espacio entre párrafos
+		%		
+		%		\begin{flushleft}
+			%			\ttfamily
+			%			\small
+			%}{
+			%		\end{flushleft}
+		%	\end{minipage}
+	%	\hspace{2cm}
+	%	\vspace{1ex}
+	%}	

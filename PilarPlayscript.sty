@@ -13,7 +13,14 @@
 }
 
 %-----------------------------
-%   Opciones con valores
+%   Activar opciones
+
+\DeclareBoolOption{verso}
+\DeclareBoolOption{multicol}
+
+
+%-----------------------------
+%   Definir longitudes
 
 % Sangría del texto del parlamento
 \DeclareStringOption[10mm]{sepLhabla}  % valor por defecto: 10pt
@@ -28,55 +35,20 @@
 
 
 %-----------------------------
-%   Opciones booleanas
-
-\DeclareBoolOption{verso}
-\DeclareBoolOption{multicol}
+%   Procesar las variables
 
 \ProcessKeyvalOptions*
 
+%-----------------------------
 
-%-----------------------------------------------------------
 
 \newlength{\sepParrafo} \setlength{\sepParrafo}{6pt}
+
 
 %-----------------------------------------------------------
 %    Macros para teatro
 %-----------------------------------------------------------
 
-% COMANDOS VIEJOS
-
-%\newcommand{\acotar}[1]{
-	%	\vspace{-\sepParrafo / 2}%
-	%	\hspace{7mm}%
-	%	\parbox[c]{\linewidth-34mm}{(#1)}%
-	%	\par \vspace{-\sepParrafo / 2}
-	%}
-%
-%
-%\newenvironment{habla}{
-	%	\leftskip=10mm 
-	%	\rightskip=10mm
-	%}{\par}
-%
-%\newenvironment{parla}[2][]{
-	%	\vspace{\sepParrafo / 2 + 2pt}
-	%	\begin{minipage}{1\linewidth}
-		%		\setlength{\parskip}{\sepParrafo} % Espacio entre párrafos
-		%		
-		%		\hspace{25mm} \textrm{\textbf{#2}} \par \vspace{-2\sepParrafo + 
-		%\sepParrafo / 2 + 1pt}
-		%		\begin{habla}
-			%			\ifthenelse{\not\equal{#1}{}}{
-				%				\vspace{\sepParrafo / 2}%
-				%				\acotar{#1}%
-				%				\vspace{-\sepParrafo / 2}%
-				%			}{}
-			%}{
-			%		\end{habla}
-		%	\end{minipage}
-	%	\vspace{-\sepParrafo / 2}
-	%}
 
 %------------------------------------------------
 %   Acotaciones
@@ -89,10 +61,12 @@
 
 \newcommand{\acotar}[1]{
 	\begingroup
-	\leftskip=\dimexpr\pilarteatro@sepLhabla + \pilarteatro@incrLacotar\relax
-	\rightskip=\dimexpr\pilarteatro@sepRhabla + \pilarteatro@incrRacotar\relax
-	(\textit{#1})
-	\par
+		\leftskip=\dimexpr\pilarteatro@sepLhabla + 
+		\pilarteatro@incrLacotar\relax
+		\rightskip=\dimexpr\pilarteatro@sepRhabla + 
+		\pilarteatro@incrRacotar\relax
+		(\textit{#1})
+		\par
 	\endgroup
 	\vspace{-\sepParrafo}
 }
@@ -107,11 +81,11 @@
 \newenvironment{habla}{
 	\vspace{-\sepParrafo}
 	\begingroup
-	\setlength{\parskip}{\sepParrafo}
-	\leftskip=\dimexpr\pilar@sepLhabla\relax
-	\rightskip=\dimexpr\pilar@sepRhabla\relax
+		\setlength{\parskip}{\sepParrafo}
+		\leftskip=\dimexpr\pilar@sepLhabla\relax
+		\rightskip=\dimexpr\pilar@sepRhabla\relax
 }{
-	\par
+		\par
 	\endgroup
 }
 
@@ -123,17 +97,18 @@
 	}%
 	\vspace{\sepParrafo/2}
 	\begingroup
-	\setlength{\parskip}{0pt}
-	\begingroup
-	\leftskip=\dimexpr\pilarteatro@sepLhabla + \pilarteatro@incrLpersonaj\relax
-	\noindent \textrm{\textsc{#2}} \par
-	\endgroup
-	\begin{habla}
-		\ifthenelse{\not\equal{#1}{}}{
-			\acotar{#1} \par
-		}{}
+		\setlength{\parskip}{0pt}
+		\begingroup
+			\leftskip=\dimexpr\pilarteatro@sepLhabla + 
+			\pilarteatro@incrLpersonaj\relax
+			\noindent \textrm{\textsc{#2}} \par
+		\endgroup
+		\begin{habla}
+			\ifthenelse{\not\equal{#1}{}}{
+				\acotar{#1} \par
+			}{}
 	}{
-	\end{habla}
+		\end{habla}
 	\endgroup
 	\vspace{\sepParrafo/2}
 }

@@ -23,15 +23,15 @@
 %   Definir longitudes
 
 % Sangría del texto del parlamento
-\DeclareStringOption[10mm]{sepLhabla}  % valor por defecto: 10pt
-\DeclareStringOption[10mm]{sepRhabla}
+\DeclareStringOption[10mm]{sepLHabla}  % valor por defecto: 10pt
+\DeclareStringOption[10mm]{sepRHabla}
 
 % Sangría del texto del acotación
-\DeclareStringOption[7mm]{incrLacotar}
-\DeclareStringOption[7mm]{incrRacotar}
+\DeclareStringOption[17mm]{sepLAcotar}
+\DeclareStringOption[17mm]{sepRAcotar}
 
 % Sangría del texto del nombre del personaje
-\DeclareStringOption[15mm]{incrLpersonaj}
+\DeclareStringOption[25mm]{sepLPersonaj}
 
 
 %-----------------------------
@@ -61,10 +61,8 @@
 
 \newcommand{\acotar}[1]{
 	\begingroup
-		\leftskip=\dimexpr\pilarteatro@sepLhabla + 
-		\pilarteatro@incrLacotar\relax
-		\rightskip=\dimexpr\pilarteatro@sepRhabla + 
-		\pilarteatro@incrRacotar\relax
+		\leftskip=\dimexpr\pilarteatro@sepLAcotar\relax
+		\rightskip=\dimexpr\pilarteatro@sepRAcotar\relax
 		(\textit{#1})
 		\par
 	\endgroup
@@ -82,8 +80,8 @@
 		\vspace{-\sepParrafo}
 		\begingroup
 			\setlength{\parskip}{\sepParrafo}
-			\leftskip=\dimexpr\pilarteatro@sepLhabla\relax
-			\rightskip=\dimexpr\pilarteatro@sepRhabla\relax
+			\leftskip=\dimexpr\pilarteatro@sepLHabla\relax
+			\rightskip=\dimexpr\pilarteatro@sepRHabla\relax
 	}{
 			\par
 		\endgroup
@@ -99,8 +97,7 @@
 	\begingroup
 		\setlength{\parskip}{0pt}
 		\begingroup
-			\leftskip=\dimexpr\pilarteatro@sepLhabla + 
-			\pilarteatro@incrLpersonaj\relax
+			\leftskip=\dimexpr\pilarteatro@sepLPersonaj\relax
 			\noindent \textrm{\textsc{#2}} \par
 		\endgroup
 		\begin{habla}

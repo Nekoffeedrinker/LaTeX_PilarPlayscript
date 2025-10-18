@@ -79,15 +79,15 @@
 %	Parlamentos
 
 \newenvironment{habla}{
-	\vspace{-\sepParrafo}
-	\begingroup
-		\setlength{\parskip}{\sepParrafo}
-		\leftskip=\dimexpr\pilar@sepLhabla\relax
-		\rightskip=\dimexpr\pilar@sepRhabla\relax
-}{
-		\par
-	\endgroup
-}
+		\vspace{-\sepParrafo}
+		\begingroup
+			\setlength{\parskip}{\sepParrafo}
+			\leftskip=\dimexpr\pilarteatro@sepLhabla\relax
+			\rightskip=\dimexpr\pilarteatro@sepRhabla\relax
+	}{
+			\par
+		\endgroup
+	}
 
 \newenvironment{parla}[2][]{
 	\ifthenelse{\not\equal{#1}{}}{%

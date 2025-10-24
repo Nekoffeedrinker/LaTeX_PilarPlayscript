@@ -88,11 +88,12 @@
 	}
 
 \newenvironment{parla}[2][]{
-	\ifthenelse{\not\equal{#1}{}}{%
+	\def\acotacion{#1}%
+	\ifx\acotacion\empty%
+	  \Needspace{2\baselineskip}%
+	\else%
 		\Needspace{3\baselineskip}%
-	}{%
-		\Needspace{2\baselineskip}%
-	}%
+	\fi%
 	\vspace{\sepParrafo/2}
 	\begingroup
 		\setlength{\parskip}{0pt}
@@ -101,9 +102,11 @@
 			\noindent \textrm{\textsc{#2}} \par
 		\endgroup
 		\begin{habla}
-			\ifthenelse{\not\equal{#1}{}}{
+			\ifx\acotacion\empty
+  			% vacío
+			\else
 				\acotar{#1} \par
-			}{}
+			\fi
 	}{
 		\end{habla}
 	\endgroup

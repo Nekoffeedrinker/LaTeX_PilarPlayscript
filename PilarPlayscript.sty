@@ -88,7 +88,7 @@
 	\ifx\acotacion\empty%
 	  \Needspace{2\baselineskip}%
 	\else%
-		\Needspace{3\baselineskip}%
+	  \Needspace{3\baselineskip}%
 	\fi%
 	\vspace{\sepParrafo/2}
 	\begingroup
@@ -101,7 +101,7 @@
 			\ifx\acotacion\empty
   			% vacío
 			\else
-				\acotar{#1} \par
+  			\acotar{#1} \par
 			\fi
 	}{
 		\end{habla}
@@ -146,6 +146,9 @@
 %    Verso y dobles columnas
 %-----------------------------------------------------------
 
+%------------------------------------------------
+% Multi columnas
+
 \ifpilarteatro@multicol
 	% Código para activar modo doble columna
 
@@ -160,8 +163,6 @@
 \ifpilarteatro@verso
 	% Código para activar modo verso
 
-	\global\pilarteatro@multicoltrue
-
 	\newenvironment{versomio}{
 		\begin{flushleft}
 			\small
@@ -169,18 +170,27 @@
 	}{
 		\end{flushleft}
 	}
-
-	\newenvironment{versomiodo}{
-		\begin{flushleft}
-			\begin{multicols}{2}
-				\small
-				\setstretch{1.0}
-	}{
-			\end{multicols}
-		\end{flushleft}
-	}
 \fi
 
+
+%------------------------------------------------
+% Versos con multi columna
+
+\ifpilarteatro@multicol
+	\ifpilarteatro@verso
+
+		\newenvironment{versomiodo}{
+			\begin{flushleft}
+				\begin{multicols}{2}
+					\small
+					\setstretch{1.0}
+		}{
+				\end{multicols}
+			\end{flushleft}
+		}
+
+	\fi
+\fi
 
 
 %-----------------------------------------------------------

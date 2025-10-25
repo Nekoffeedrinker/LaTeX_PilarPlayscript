@@ -2,7 +2,7 @@
 \ProvidesPackage{PilarPlayscript}[2025/10/13 Paquete para textos teatrales]
 
 %-----------------------------------------------------------
-%    Configuración de variables
+%    Variables del paquete
 %-----------------------------------------------------------
 
 \RequirePackage{kvoptions}
@@ -39,10 +39,27 @@
 
 \ProcessKeyvalOptions*
 
-%-----------------------------
+%-----------------------------------------------------------
+%    Longitudes internas
+%-----------------------------------------------------------
 
+\RequirePackage{etoolbox}
+% forcsvlist es parte de etoolbox
 
-\newlength{\sepParrafo} \setlength{\sepParrafo}{6pt}
+\newcommand{\newlengths}[1]{%
+  \forcsvlist{\newlength}{#1}%
+}
+
+\newlengths{\sepParrafo,\hablaLskip,\hablaRskip,\acotarLskip,\acotarRskip,\personajLskip,\parlasep,\parlaParsep}
+
+\setlength{\sepParrafo}{6pt}
+\setlength{\hablaLskip}{\dimexpr\pilarteatro@sepLHabla\relax}
+\setlength{\hablaRskip}{\dimexpr\pilarteatro@sepRHabla\relax}
+\setlength{\acotarLskip}{\dimexpr\pilarteatro@sepLAcotar\relax}
+\setlength{\acotarRskip}{\dimexpr\pilarteatro@sepRAcotar\relax}
+\setlength{\personajLskip}{\dimexpr\pilarteatro@sepLPersonaj\relax}
+\setlength{\parlasep}{6pt}
+\setlength{\parlaParsep}{6pt}
 
 
 %-----------------------------------------------------------
@@ -60,8 +77,8 @@
 
 \newcommand{\acotar}[1]{
 	\begingroup
-		\leftskip=\dimexpr\pilarteatro@sepLAcotar\relax
-		\rightskip=\dimexpr\pilarteatro@sepRAcotar\relax
+		\leftskip=\acotarLskip
+		\rightskip=\acotarRskip
 		(\textit{#1})
 		\par
 	\endgroup
@@ -73,11 +90,10 @@
 %	Parlamentos
 
 \newenvironment{habla}{
-		\vspace{-\sepParrafo}
 		\begingroup
-			\setlength{\parskip}{\sepParrafo}
-			\leftskip=\dimexpr\pilarteatro@sepLHabla\relax
-			\rightskip=\dimexpr\pilarteatro@sepRHabla\relax
+			\setlength{\parskip}{\parlaParsep}
+			\leftskip=\hablaLskip
+			\rightskip=\hablaRskip
 	}{
 			\par
 		\endgroup
@@ -94,7 +110,7 @@
 	\begingroup
 		\setlength{\parskip}{0pt}
 		\begingroup
-			\leftskip=\dimexpr\pilarteatro@sepLPersonaj\relax
+			\leftskip=\personajLskip
 			\noindent \textrm{\textsc{#2}} \par
 		\endgroup
 		\begin{habla}

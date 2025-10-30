@@ -76,13 +76,14 @@
 }
 
 \newcommand{\acotar}[1]{
+	\vspace{-\parlaParsep/2}
 	\begingroup
 		\leftskip=\acotarLskip
 		\rightskip=\acotarRskip
 		(\textit{#1})
 		\par
 	\endgroup
-	\vspace{-\sepParrafo}
+	\vspace{-\parlaParsep/2}
 }
 
 
@@ -106,23 +107,24 @@
 	\else%
 	  \Needspace{3\baselineskip}%
 	\fi%
-	\vspace{\sepParrafo/2}
+	\vspace{\parlasep/2}
 	\begingroup
 		\setlength{\parskip}{0pt}
 		\begingroup
 			\leftskip=\personajLskip
 			\noindent \textrm{\textsc{#2}} \par
 		\endgroup
+		\vspace{-\parlaParsep}
 		\begin{habla}
 			\ifx\acotacion\empty
   			% vacío
 			\else
-  			\acotar{#1} \par
+  			\vspace{\parlaParsep/2} \acotar{#1} \par \vspace{-\parlaParsep/2}
 			\fi
 	}{
 		\end{habla}
 	\endgroup
-	\vspace{\sepParrafo/2}
+	\vspace{\parlasep/2}
 }
 
 
@@ -154,7 +156,7 @@
 }
 
 \newcommand{\pegado}{
-	\vspace{-4pt}
+	\vspace{-\parlaParsep/2}
 }
 
 

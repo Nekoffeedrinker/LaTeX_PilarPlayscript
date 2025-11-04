@@ -39,6 +39,15 @@
 
 \ProcessKeyvalOptions*
 
+%-----------------------------
+%   Variables para entorno
+
+\newif\ifinsideverso
+\insideversofalse
+
+\newif\ifprimercotar
+\primercotarfalse
+
 %-----------------------------------------------------------
 %    Longitudes internas
 %-----------------------------------------------------------
@@ -50,7 +59,7 @@
   \forcsvlist{\newlength}{#1}%
 }
 
-\newlengths{\sepParrafo,\hablaLskip,\hablaRskip,\acotarLskip,\acotarRskip,\personajLskip,\parlasep,\parlaParsep}
+\newlengths{\sepParrafo,\hablaLskip,\hablaRskip,\acotarLskip,\acotarRskip,\personajLskip,\parlasep,\parlaParsep,\parlaVersep}
 
 \setlength{\sepParrafo}{6pt}
 \setlength{\hablaLskip}{\dimexpr\pilarteatro@sepLHabla\relax}
@@ -60,6 +69,7 @@
 \setlength{\personajLskip}{\dimexpr\pilarteatro@sepLPersonaj\relax}
 \setlength{\parlasep}{6pt}
 \setlength{\parlaParsep}{6pt}
+\setlength{\parlaVersep}{0pt}
 
 
 %-----------------------------------------------------------
@@ -76,6 +86,11 @@
 }
 
 \newcommand{\acotar}[1]{
+	\ifprimercotar
+		% nada
+	\else
+		\vspace{\parlaVersep/2}
+	\fi
 	\vspace{-\parlaParsep/2}
 	\begingroup
 		\leftskip=\acotarLskip
@@ -84,6 +99,7 @@
 		\par
 	\endgroup
 	\vspace{-\parlaParsep/2}
+	\vspace{\parlaVersep/2}
 }
 
 
@@ -119,7 +135,9 @@
 			\ifx\acotacion\empty
   			% vacío
 			\else
-  			\vspace{\parlaParsep/2} \acotar{#1} \par \vspace{-\parlaParsep/2}
+				\primercotartrue
+  			\acotar{#1} \par \vspace{-\parlaParsep/2-\parlaVersep/2}
+				\primercotarfalse
 			\fi
 	}{
 		\end{habla}
@@ -134,7 +152,7 @@
 % Continuación
 \newcommand{\cont}{\textbf{\hspace{0.5ex} (cont.)}}
 
-% Resaltar personajes
+% Resaltar personaje cuando se menciona
 \newcommand{\personaje}[1]{\emph{\textsf{#1}}}
 
 % Final de un texto
@@ -156,7 +174,7 @@
 }
 
 \newcommand{\pegado}{
-	\vspace{-\parlaParsep/2}
+	\vspace{-\parlaParsep/2-\parlaVersep/2}
 }
 
 
@@ -180,6 +198,18 @@
 
 \ifpilarteatro@verso
 	% Código para activar modo verso
+
+	\newcommand{\estrofa}{\vspace{\parlaVersep}}
+
+	\newenvironment{versodo}{
+		\insideversotrue
+		\begingroup
+			\setlength{\parlaVersep}{6pt}
+			\setlength{\parlaParsep}{0pt}
+	}{
+		\endgroup
+		\insideversofalse
+	}
 
 	\newenvironment{versomio}{
 		\begin{flushleft}

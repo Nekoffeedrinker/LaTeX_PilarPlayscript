@@ -1,0 +1,58 @@
+%---------------------------------------------------------------------------
+%    Portada en tiks
+%---------------------------------------------------------------------------
+
+\begin{tikzpicture}[remember picture,overlay]
+	\coordinate (title) at ($(current page.north)+(0,-25mm)+(0,-15mm)$);
+	\coordinate (tituba) at ($(current page.south)+(0,25mm)$);
+	
+	%	Poner la imagen de fondo
+%	\node[inner sep=0pt,opacity=0.03] at ($(current page.center)+(0,2mm)$) {\includegraphics[height=0.95\paperheight]{anexos/img-portada_Bunny.png}};
+	
+	%	Poner la imagen en el espacio sobrante
+%	\node[inner sep=0pt,anchor=south,opacity=0.5] at ([shift={(0,30mm)}]tituba) {\includegraphics[height=80mm]{anexos/img-portada_Bunny.png}};
+	
+%	\node[inner sep=0pt,anchor=north] at (title) 
+%	{\includegraphics{LaTeX_PilarPlayscript/vector-portada_Marco_luces.pdf}};
+	
+	\node[inner sep=0pt,anchor=north] at ([shift={(0,-40mm)}]title) {
+		\begin{minipage}[m][50mm]{170mm}
+			\setlength{\parskip}{6pt}
+			\centering
+			
+			{\fontsize{22}{22}\selectfont \rmfamily \scshape \superencabezado}
+			
+			\vspace{6pt}
+			{\fontsize{42}{42}\selectfont \rmfamily \bfseries\itshape 
+			\encabezado}
+			\vspace{6pt}
+			
+			{\fontsize{22}{22}\selectfont \rmfamily \scshape \subencabezado}
+			
+			\vspace{12pt}
+			
+			{\fontsize{14}{14}\selectfont \emph{De:} \dramaturgo
+			
+			\vspace{4pt}
+			
+			Dirección: \director}
+			
+		\end{minipage}
+	};
+	
+	\node[inner sep=0pt,anchor=south] at (tituba) {
+		\begin{minipage}{140mm}
+			\setlength{\parskip}{4pt}
+			\centering
+			\ttfamily
+			
+			\fontsize{12}{12}\selectfont
+			
+			Revisión por Denis Pilar
+			
+			el \fecha
+			
+		\end{minipage}
+	};
+	
+\end{tikzpicture}

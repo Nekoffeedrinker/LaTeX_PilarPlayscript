@@ -23,15 +23,15 @@
 %   Definir longitudes
 
 % Sangría del texto del parlamento
-\DeclareStringOption[10mm]{sepLHabla}  % valor por defecto: 10pt
-\DeclareStringOption[10mm]{sepRHabla}
+\DeclareStringOption[10mm]{sepHablaL}  % valor por defecto: 10pt
+\DeclareStringOption[10mm]{sepHablaR}
 
 % Sangría del texto del acotación
-\DeclareStringOption[17mm]{sepLAcotar}
-\DeclareStringOption[17mm]{sepRAcotar}
+\DeclareStringOption[17mm]{sepAcotarL}
+\DeclareStringOption[17mm]{sepAcotarR}
 
 % Sangría del texto del nombre del personaje
-\DeclareStringOption[25mm]{sepLPersonaj}
+\DeclareStringOption[25mm]{sepPersonajL}
 
 
 %-----------------------------
@@ -59,14 +59,14 @@
   \forcsvlist{\newlength}{#1}%
 }
 
-\newlengths{\sepParrafo,\hablaLskip,\hablaRskip,\acotarLskip,\acotarRskip,\personajLskip,\parlasep,\parlaParsep,\parlaVersep}
+\newlengths{\hablaLskip,\hablaRskip,\acotarLskip,\acotarRskip,\personajLskip,
+\parlasep,\parlaParsep,\parlaVersep}
 
-\setlength{\sepParrafo}{6pt}
-\setlength{\hablaLskip}{\dimexpr\pilarteatro@sepLHabla\relax}
-\setlength{\hablaRskip}{\dimexpr\pilarteatro@sepRHabla\relax}
-\setlength{\acotarLskip}{\dimexpr\pilarteatro@sepLAcotar\relax}
-\setlength{\acotarRskip}{\dimexpr\pilarteatro@sepRAcotar\relax}
-\setlength{\personajLskip}{\dimexpr\pilarteatro@sepLPersonaj\relax}
+\setlength{\hablaLskip}{\dimexpr\pilarteatro@sepHablaL\relax}
+\setlength{\hablaRskip}{\dimexpr\pilarteatro@sepHablaR\relax}
+\setlength{\acotarLskip}{\dimexpr\pilarteatro@sepAcotarL\relax}
+\setlength{\acotarRskip}{\dimexpr\pilarteatro@sepAcotarR\relax}
+\setlength{\personajLskip}{\dimexpr\pilarteatro@sepPersonajL\relax}
 \setlength{\parlasep}{6pt}
 \setlength{\parlaParsep}{6pt}
 \setlength{\parlaVersep}{0pt}
@@ -175,7 +175,7 @@
 }
 
 \newcommand{\sep}{
-	\vspace{\sepParrafo}
+	\vspace{\parlaParsep+\parlaVersep}
 }
 
 \newcommand{\pegado}{
